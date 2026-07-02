@@ -25,9 +25,13 @@ export interface Video {
   monitored_account_id: string;
   tiktok_id: string;
   title: string;
+  description?: string;
   upload_date?: string;
   upload_timestamp?: number;
+  duration?: number;
+  thumbnail_path?: string;
   file_path?: string;
+  file_size?: number;
   metadata?: Record<string, unknown>;
   likes?: number;
   views?: number;
