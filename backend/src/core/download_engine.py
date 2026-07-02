@@ -6,6 +6,7 @@ from pathlib import Path
 from typing import Any
 
 import yt_dlp
+from yt_dlp.networking.impersonate import ImpersonateTarget
 
 from src.config import settings
 from src.core.crypto import decrypt_cookies
@@ -23,7 +24,7 @@ class DownloadEngine:
             "socket_timeout": 30,
             "retries": 3,
             "fragment_retries": 3,
-            "impersonate": "chrome",
+            "impersonate": ImpersonateTarget.chrome,
             "http_headers": {
                 "User-Agent": (
                     "Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
