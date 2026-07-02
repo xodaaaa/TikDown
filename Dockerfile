@@ -1,7 +1,7 @@
 FROM --platform=$BUILDPLATFORM node:22-alpine AS frontend-builder
 
 WORKDIR /frontend
-COPY frontend/package.json frontend/.npmrc ./
+COPY frontend/package.json frontend/.npmrc frontend/pnpm-workspace.yaml ./
 RUN corepack enable && corepack prepare pnpm@latest --activate && PNPM_ONLY_BUILT_DEPENDENCIES=esbuild pnpm install
 COPY frontend/ ./
 RUN pnpm build
