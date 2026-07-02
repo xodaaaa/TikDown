@@ -70,6 +70,14 @@ def json_cookies_to_netscape(cookies_list: list[dict]) -> str:
     return "\n".join(lines) + "\n"
 
 
+def _status_from_test(is_valid: bool, test_msg: str) -> str:
+    if is_valid:
+        return "valid"
+    if "Could not verify" in test_msg:
+        return "unverified"
+    return "invalid"
+
+
 def _test_cookies_with_ytdlp(cookiefile_path: str) -> tuple[bool, str]:
     try:
         engine = DownloadEngine(cookiefile_path=cookiefile_path)
@@ -77,6 +85,8 @@ def _test_cookies_with_ytdlp(cookiefile_path: str) -> tuple[bool, str]:
         return True, "Cookies are valid and working."
     except Exception as e:
         msg = str(e)
+        if "403" in msg or "Forbidden" in msg or "blocked" in msg.lower():
+            return False, "Could not verify (TikTok may be blocking this IP). Cookie saved."
         if "Sign in" in msg or "login" in msg.lower():
             return False, "Cookies are expired or invalid (login required)."
         return False, f"Validation failed: {msg[:200]}"
@@ -138,7 +148,7 @@ async def upload_cookie(
             f.write(netscape_content)
 
         is_valid, test_msg = await _test_cookies_with_ytdlp_async(temp_path)
-        status_val = "valid" if is_valid else "invalid"
+        status_val = _status_from_test(is_valid, test_msg)
 
         cookie = Cookie(
             name=name,
@@ -182,7 +192,7 @@ async def test_cookie(
             f.write(netscape_content)
 
         is_valid, test_msg = await _test_cookies_with_ytdlp_async(temp_path)
-        cookie.status = "valid" if is_valid else "invalid"
+        cookie.status = _status_from_test(is_valid, test_msg)
         cookie.last_validated_at = datetime.now(UTC)
         await db.commit()
 
