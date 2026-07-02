@@ -1,8 +1,8 @@
 FROM --platform=$BUILDPLATFORM node:22-alpine AS frontend-builder
 
 WORKDIR /frontend
-COPY frontend/package.json frontend/pnpm-lock.yaml ./
-RUN corepack enable && corepack prepare pnpm@latest --activate && pnpm install --frozen-lockfile
+COPY frontend/package.json ./
+RUN corepack enable && corepack prepare pnpm@latest --activate && pnpm install
 COPY frontend/ ./
 RUN pnpm build
 
