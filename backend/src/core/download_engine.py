@@ -24,7 +24,7 @@ class DownloadEngine:
             "socket_timeout": 30,
             "retries": 3,
             "fragment_retries": 3,
-            "impersonate": ImpersonateTarget.chrome,
+            "impersonate": ImpersonateTarget.from_str("chrome"),
             "http_headers": {
                 "User-Agent": (
                     "Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
