@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import asyncio
 import json
 import os
 import tempfile
@@ -81,6 +82,10 @@ def _test_cookies_with_ytdlp(cookiefile_path: str) -> tuple[bool, str]:
         return False, f"Validation failed: {msg[:200]}"
 
 
+async def _test_cookies_with_ytdlp_async(cookiefile_path: str) -> tuple[bool, str]:
+    return await asyncio.to_thread(_test_cookies_with_ytdlp, cookiefile_path)
+
+
 @router.get("", response_model=CookieListResponse)
 async def list_cookies(
     request: Request,
@@ -132,7 +137,7 @@ async def upload_cookie(
         with os.fdopen(fd, "w") as f:
             f.write(netscape_content)
 
-        is_valid, test_msg = _test_cookies_with_ytdlp(temp_path)
+        is_valid, test_msg = await _test_cookies_with_ytdlp_async(temp_path)
         status_val = "valid" if is_valid else "invalid"
 
         cookie = Cookie(
@@ -176,7 +181,7 @@ async def test_cookie(
         with os.fdopen(fd, "w") as f:
             f.write(netscape_content)
 
-        is_valid, test_msg = _test_cookies_with_ytdlp(temp_path)
+        is_valid, test_msg = await _test_cookies_with_ytdlp_async(temp_path)
         cookie.status = "valid" if is_valid else "invalid"
         cookie.last_validated_at = datetime.now(UTC)
         await db.commit()

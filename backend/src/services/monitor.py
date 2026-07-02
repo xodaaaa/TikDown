@@ -48,7 +48,7 @@ class MonitorService:
                     "payload": {"username": account.tiktok_username},
                 })
 
-                entries = engine.list_videos(account.tiktok_username)
+                entries = await asyncio.to_thread(engine.list_videos, account.tiktok_username)
             except Exception as e:
                 cb.record_failure()
                 await self._handle_failure(db, account, str(e))
@@ -162,7 +162,7 @@ class MonitorService:
 
             engine = await self._build_engine(db, account)
             try:
-                profile = engine.get_profile_info(account.tiktok_username)
+                profile = await asyncio.to_thread(engine.get_profile_info, account.tiktok_username)
                 account.avatar_url = profile.get("avatar_url")
                 account.follower_count = profile.get("follower_count", 0)
                 account.following_count = profile.get("following_count", 0)
