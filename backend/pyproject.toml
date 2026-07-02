@@ -9,7 +9,7 @@ dependencies = [
     "apscheduler>=3.11.3",
     "argon2-cffi>=25.1.0",
     "cryptography>=49.0.0",
-    "curl-cffi>=0.7.0",
+    "curl-cffi==0.15.0",
     "fastapi[standard]>=0.128",
     "httpx>=0.28.1",
     "pydantic>=2",
