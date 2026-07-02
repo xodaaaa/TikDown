@@ -1,14 +1,18 @@
 import { Route, Routes } from "react-router-dom";
 import ProtectedRoute from "./routes/ProtectedRoute";
+import DashboardPage from "./pages/Dashboard/DashboardPage";
+import UsersPage from "./pages/Users/UsersPage";
+import GalleryPage from "./pages/Gallery/GalleryPage";
+import SettingsPage from "./pages/Settings/SettingsPage";
 
 export default function App() {
   return (
     <Routes>
       <Route element={<ProtectedRoute />}>
-        <Route index lazy={() => import("./pages/Dashboard/DashboardPage").then((m) => ({ Component: m.default }))} />
-        <Route path="users" lazy={() => import("./pages/Users/UsersPage").then((m) => ({ Component: m.default }))} />
-        <Route path="gallery" lazy={() => import("./pages/Gallery/GalleryPage").then((m) => ({ Component: m.default }))} />
-        <Route path="settings" lazy={() => import("./pages/Settings/SettingsPage").then((m) => ({ Component: m.default }))} />
+        <Route index element={<DashboardPage />} />
+        <Route path="users" element={<UsersPage />} />
+        <Route path="gallery" element={<GalleryPage />} />
+        <Route path="settings" element={<SettingsPage />} />
       </Route>
     </Routes>
   );
