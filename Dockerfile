@@ -31,6 +31,7 @@ FROM python:3.12-slim
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
     ffmpeg \
+    libcurl4 \
     && rm -rf /var/lib/apt/lists/*
 
 RUN groupadd -r tikdown && useradd -r -g tikdown -d /app tikdown
