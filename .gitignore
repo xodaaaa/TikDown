@@ -41,3 +41,4 @@ docker-compose.override.yml
 # Project specification (local only)
 SPECIFICACION_*.md
 *.spec.md
+PROBLEMS_AND_SOLUTIONS.md
