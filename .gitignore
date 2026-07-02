@@ -37,3 +37,7 @@ test-results/
 
 # Docker
 docker-compose.override.yml
+
+# Project specification (local only)
+SPECIFICACION_*.md
+*.spec.md
