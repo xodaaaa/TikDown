@@ -1,12 +1,13 @@
 from __future__ import annotations
 
 import asyncio
+import os
 from collections.abc import AsyncGenerator
 from contextlib import asynccontextmanager
 
-from fastapi import FastAPI
+from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import JSONResponse
+from fastapi.responses import FileResponse, JSONResponse
 from fastapi.staticfiles import StaticFiles
 from sqlalchemy import text
 
@@ -18,6 +19,27 @@ from src.db.session import async_session_factory, engine
 
 task_queue = APSchedulerQueue()
 event_queue: asyncio.Queue[dict] = asyncio.Queue()
+
+FRONTEND_DIST = os.environ.get("FRONTEND_DIST", "/app/frontend/dist")
+
+
+def _mount_frontend(app: FastAPI) -> None:
+    if not os.path.isdir(FRONTEND_DIST):
+        return
+
+    assets_dir = os.path.join(FRONTEND_DIST, "assets")
+    if os.path.isdir(assets_dir):
+        app.mount("/assets", StaticFiles(directory=assets_dir), name="frontend_assets")
+
+    index_path = os.path.join(FRONTEND_DIST, "index.html")
+
+    @app.get("/{full_path:path}")
+    async def serve_spa(full_path: str):
+        if full_path.startswith("api/") or full_path.startswith("media/"):
+            raise HTTPException(status_code=404)
+        if os.path.isfile(index_path):
+            return FileResponse(index_path)
+        raise HTTPException(status_code=404)
 
 
 def _create_app() -> FastAPI:
@@ -55,6 +77,8 @@ def _create_app() -> FastAPI:
         app.mount("/media", StaticFiles(directory=settings.MEDIA_DIR), name="media")
     except Exception:
         pass
+
+    _mount_frontend(app)
 
     @app.get("/api/system/health")
     async def health():
