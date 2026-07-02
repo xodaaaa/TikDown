@@ -78,8 +78,6 @@ def _create_app() -> FastAPI:
     except Exception:
         pass
 
-    _mount_frontend(app)
-
     @app.get("/api/system/health")
     async def health():
         try:
@@ -94,6 +92,8 @@ def _create_app() -> FastAPI:
             "yt_dlp_pinned": settings.YT_DLP_VERSION_PINNED,
             "setup_complete": is_setup_complete(),
         }
+
+    _mount_frontend(app)
 
     return app
 

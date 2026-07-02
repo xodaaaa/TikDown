@@ -18,11 +18,11 @@ export default function ProtectedRoute() {
     );
   }
 
-  const isSetup = data?.authenticated !== undefined;
+  const needsSetup = data?.needs_setup === true;
   const isAuth = authenticated || data?.authenticated === true;
 
-  if (!isSetup || !isAuth) {
-    return <LoginPage onAuthenticated={() => setAuthenticated(true)} isSetup={isSetup} />;
+  if (needsSetup || !isAuth) {
+    return <LoginPage onAuthenticated={() => setAuthenticated(true)} needsSetup={needsSetup} />;
   }
 
   return (

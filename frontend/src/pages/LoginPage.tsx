@@ -4,10 +4,10 @@ import { api } from "../services/api";
 
 interface Props {
   onAuthenticated: () => void;
-  isSetup: boolean;
+  needsSetup: boolean;
 }
 
-export default function LoginPage({ onAuthenticated, isSetup }: Props) {
+export default function LoginPage({ onAuthenticated, needsSetup }: Props) {
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const queryClient = useQueryClient();
@@ -33,10 +33,10 @@ export default function LoginPage({ onAuthenticated, isSetup }: Props) {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     setError("");
-    if (isSetup) {
-      loginMutation.mutate(password);
-    } else {
+    if (needsSetup) {
       setupMutation.mutate(password);
+    } else {
+      loginMutation.mutate(password);
     }
   };
 
@@ -45,7 +45,7 @@ export default function LoginPage({ onAuthenticated, isSetup }: Props) {
       <div className="w-full max-w-sm p-8 bg-gray-900 rounded-xl border border-gray-800">
         <h1 className="text-2xl font-bold text-center text-accent-500 mb-2">TikDown</h1>
         <p className="text-gray-400 text-center text-sm mb-6">
-          {isSetup ? "Enter your password to continue" : "Set your admin password"}
+          {needsSetup ? "Set your admin password" : "Enter your password to continue"}
         </p>
         <form onSubmit={handleSubmit} className="space-y-4">
           <input
@@ -62,7 +62,7 @@ export default function LoginPage({ onAuthenticated, isSetup }: Props) {
             disabled={!password || loginMutation.isPending || setupMutation.isPending}
             className="w-full py-2 bg-accent-600 hover:bg-accent-500 disabled:opacity-50 text-white rounded-lg font-medium transition-colors"
           >
-            {isSetup ? "Login" : "Set Password"}
+            {needsSetup ? "Set Password" : "Login"}
           </button>
         </form>
       </div>

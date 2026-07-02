@@ -70,10 +70,11 @@ async def logout():
 
 @router.get("/auth/check", response_model=AuthResponse)
 async def check_auth(request: Request):
+    needs = not is_setup_complete()
     session = request.cookies.get(SESSION_COOKIE)
     if session == "authenticated":
-        return AuthResponse(authenticated=True)
-    return AuthResponse(authenticated=False, message="Not authenticated")
+        return AuthResponse(authenticated=True, needs_setup=False)
+    return AuthResponse(authenticated=False, needs_setup=needs, message="Not authenticated")
 
 
 async def require_auth(request: Request):

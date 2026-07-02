@@ -7,6 +7,7 @@ class LoginRequest(BaseModel):
 
 class AuthResponse(BaseModel):
     authenticated: bool
+    needs_setup: bool = False
     message: str = ""
 
 

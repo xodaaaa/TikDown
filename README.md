@@ -133,7 +133,6 @@ TikDown/
 ├── docker-compose.yml
 ├── Caddyfile                     # (opcional, para HTTPS externo)
 ├── .env.example
-└── SPECIFICACION_PROYECTO_TIKTOK_WEB.md  # Especificacion tecnica completa
 ```
 
 ---
@@ -245,14 +244,6 @@ Resultado actual: **20 tests pasados, lint limpio**.
 - Soporte opcional de proxies
 - Exportacion masiva de videos
 - Estadisticas avanzadas y graficos
-
----
-
-## Documentacion Tecnica
-
-La especificacion completa del proyecto (arquitectura, decisiones, flujos de cookies, notificaciones, etc.) se encuentra en:
-
-**[SPECIFICACION_PROYECTO_TIKTOK_WEB.md](SPECIFICACION_PROYECTO_TIKTOK_WEB.md)** (incluida en el repositorio)
 
 ---
 

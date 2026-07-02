@@ -23,7 +23,7 @@ async function request<T>(url: string, options?: RequestInit): Promise<T> {
 
 export const api = {
   auth: {
-    check: () => request<{ authenticated: boolean }>("/auth/check"),
+    check: () => request<{ authenticated: boolean; needs_setup: boolean }>("/auth/check"),
     login: (password: string) =>
       request<{ authenticated: boolean }>("/auth/login", {
         method: "POST",
