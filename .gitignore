@@ -1,0 +1,39 @@
+# Python
+__pycache__/
+*.py[cod]
+backend/.venv/
+backend/data/
+*.egg-info/
+dist/
+.eggs/
+
+# Node
+frontend/node_modules/
+frontend/dist/
+*.tsbuildinfo
+
+# Environment
+.env
+.env.local
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+Thumbs.db
+.DS_Store
+
+# Coverage
+coverage/
+htmlcov/
+.nyc_output/
+
+# Playwright
+playwright-report/
+test-results/
+
+# Docker
+docker-compose.override.yml

@@ -1,0 +1,39 @@
+# Dependencies
+backend/.venv/
+frontend/node_modules/
+
+# Build outputs
+frontend/dist/
+*.tsbuildinfo
+
+# Data
+backend/data/
+
+# Environment
+.env
+*.env.local
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+Thumbs.db
+.DS_Store
+
+# Docker
+Dockerfile
+docker-compose.yml
+.dockerignore
+
+# Git
+.git/
+.gitignore
+
+# Tests
+coverage/
+htmlcov/
+playwright-report/
+test-results/

@@ -1,0 +1,6 @@
+# Caddyfile for TikDown (optional, for HTTPS)
+# Use this with docker-compose if exposing outside local network
+
+# :80 {
+#     reverse_proxy tikdown:8000
+# }

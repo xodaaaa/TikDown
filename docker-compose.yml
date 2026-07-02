@@ -1,0 +1,30 @@
+name: tikdown
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: tikdown
+    ports:
+      - "${TIKDOWN_PORT:-8000}:8000"
+    volumes:
+      - tikdown_data:/app/data
+    environment:
+      - SECRET_KEY=${SECRET_KEY:-change-me-to-a-random-string-at-least-32-chars}
+      - FERNET_KEY=${FERNET_KEY:-}
+      - ADMIN_PASSWORD_HASH=${ADMIN_PASSWORD_HASH:-}
+      - MONITOR_INTERVAL_MINUTES=${MONITOR_INTERVAL_MINUTES:-60}
+      - MAX_CONCURRENT_DOWNLOADS=${MAX_CONCURRENT_DOWNLOADS:-2}
+      - ENABLE_EXTERNAL_NOTIFICATIONS=${ENABLE_EXTERNAL_NOTIFICATIONS:-false}
+      - TELEGRAM_BOT_TOKEN=${TELEGRAM_BOT_TOKEN:-}
+      - TELEGRAM_CHAT_ID=${TELEGRAM_CHAT_ID:-}
+      - DISCORD_WEBHOOK_URL=${DISCORD_WEBHOOK_URL:-}
+      - GENERIC_WEBHOOK_URL=${GENERIC_WEBHOOK_URL:-}
+      - GENERIC_WEBHOOK_SECRET=${GENERIC_WEBHOOK_SECRET:-}
+      - ALLOWED_ORIGINS=${ALLOWED_ORIGINS:-http://localhost:8000}
+    restart: unless-stopped
+
+volumes:
+  tikdown_data:
+    driver: local
